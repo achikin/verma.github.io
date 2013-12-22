@@ -80,6 +80,16 @@ main.container, main.content > .container{
     letter-spacing: 0.04em;
 }
 
+.subtitle {
+	@extend .center-txt;
+    font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 1.5em;
+	text-transform: lowercase;
+	font-style: italic;
+	font-weight: 200;
+	color: #999;
+}
+
 .top-strip{
     background-color: $black;
     height: 1em;    
@@ -193,7 +203,11 @@ footer .container{
     padding: 2em 0;
     font-size: 0.8em;
     a{
-        color: $white;
-        text-decoration: underline;
+        color: #666;
+        text-decoration: none;
     }    
+
+	#copy {
+		margin-top: 10px;
+	}
 }
