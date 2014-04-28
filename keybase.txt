@@ -1,0 +1,66 @@
+==================================================================
+https://keybase.io/verma
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://udayv.com
+  * I am verma (https://keybase.io/verma) on keybase.
+  * I have a public key with fingerprint 0527 6336 3D96 49AB F346  8C67 DB8F 7A5B 09C2 A80C
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "052763363d9649abf3468c67db8f7a5b09c2a80c",
+            "host": "keybase.io",
+            "key_id": "db8f7a5b09c2a80c",
+            "uid": "29059a1b9b99f219363750ffea169000",
+            "username": "verma"
+        },
+        "service": {
+            "hostname": "udayv.com",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1398704998,
+    "expire_in": 157680000,
+    "prev": "f662947376a5b14b8fe8d7e9ea7faba7318261192c273e543ff045d3f1d3171c",
+    "seqno": 6,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v0.1.12
+Comment: https://keybase.io/crypto
+
+yMHwAnicbZFvSBR5GMd3TZM2Kv9hoBwck2mBrvNnd2Z++8IU8TxJElqNIt3lNzO/
+2R3Xndmdnd1cFr2LiPCsA7nsXgjlXkUmXGgv4rhXWqtlceFheEYQCm2YEXpIqdRd
+/kbsXa+G3/f5fL/P88yT2rPDYrP+9E3VxLl/JkusT8beRi1uT6+cIARNihOuBBFA
+Wx9ZUX1ID+mKahAugnTSHMswLCMB1gGgIDMOlhdZThJ4mYNOgQQiDXlSJMoJvxYx
+HThGgBFkVzSs4YdXkbD6FT66VaAB6QSQEoAAgExTALfinKQsI0ixgCRJE4wgXYVB
+hOkY0oOQ6ConsBRTRCwltvpul6MSjMfsohbErpCuGZqodWDZbxghl+ky4iETO4ME
+73aAV1BUCW+MDTg7omgq4aIwKRqKmUgxgOdIBwB8OYE6Q4qOvIpJODmWx8ORZhsU
+w5Eyy9LAwTEci5ekHHhbxEscAghyMhQgx1A8zVIUoEWaY5DTwcgy6XBKjExJDMVR
+5v+IoLCqES4Wjwl9ODKi+FRoRHVEdN0fa820WG2WnVkZ5s0stl05Xy5ZN5j9vz27
+eqFsqMq92H0lzFubzs6s+yqLakeVRIBfyy38BB/ansdbGir0oh9+FGDn3N9rjS+H
+O06/mmprTm4c8l8e+/fSr4Gb++TOUuNifv743kc1K/r4zx7rXbdFud23MHyLJ8q+
+s3y/2pi1cvxxZUXmgu1kc/UvJxr9yelnkynmc1pmR0amf7fvvvCUHszre9/gOZA6
+tb+ipKG0NWsl6Q7fqNNyeoJL13v/vBfo15dmV3/7b+io59tjqfqZdE+h/OZ17qC3
+5sOL1uLi+bypgo9HDt4ZvXa17Y/epuXzLWrmbOHAUPeD9sTiX+/mhYJkeL3+8EBL
+e3q5tmCifyNjbr0kXb0JsogPCg==
+=Wn58
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/verma
+
+==================================================================
+
