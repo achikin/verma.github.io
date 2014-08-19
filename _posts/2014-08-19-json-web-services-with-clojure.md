@@ -4,8 +4,6 @@ title: JSON Web Services with Clojure
 summary: Go through a quick exercise to make writing JSON Web Services a breeze, a fun filled breeze.
 ---
 
-# JSON Web Services with Clojure
-
 Less reading more coding.  The goal here is to setup Compojure in such a way that we just deal in Clojure maps when writing our Web Service.
 
 All code for this exercise is available [here](https://github.com/verma/json-webservice-test).
@@ -26,11 +24,13 @@ This sets up `api-test` with a basic [compojure](https://github.com/weavejester/
 
 ### Add some deps
    
+	```clojure
 	;; project.clj
 	...
 	:dependencies [[org.clojure/clojure "1.6.0"]
                    [ring/ring-json "0.3.1"]
                    [compojure "1.1.8"]]                 
+	```
                  
  Run the server(the server will update itself whenever you make a code change, you don't have to keep restarting the server, unless you add more dependencies)
  
