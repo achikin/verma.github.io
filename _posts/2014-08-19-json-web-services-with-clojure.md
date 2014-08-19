@@ -24,7 +24,7 @@ This sets up `api-test` with a basic [compojure](https://github.com/weavejester/
 
 ### Add some deps
    
-	```clojure
+	``` clojure
 	;; project.clj
 	...
 	:dependencies [[org.clojure/clojure "1.6.0"]
