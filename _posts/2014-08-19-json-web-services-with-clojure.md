@@ -2,6 +2,7 @@
 layout: post_page
 title: JSON Web Services with Clojure
 summary: Go through a quick exercise to make writing JSON Web Services a breeze, a fun filled breeze.
+comments: true
 ---
 
 Less reading more coding.

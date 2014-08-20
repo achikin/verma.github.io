@@ -2,6 +2,7 @@
 layout: post_page
 title: Playing with Dates
 summary: Clojure's composability to build dates using clj-time
+comments: true
 ---
 
 Build small self contained units of code (possibly pure) and combine them to make them do more complex stuff.
