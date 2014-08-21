@@ -1,8 +1,10 @@
-# visit https://github.com/mojombo/jekyll/wiki/Configuration for more settings
-
-auto: true # automatically update your jekyll
-server: true # runs a local server
-highlighter: pygments
-paginate: 10 # pagination basted on number of posts
-exclude: ["Gemfile", "Gemfile.lock", "README.md", 'sass', 'watch.sh', 'style.scss'] # files to exclude
-
+# Site settings
+title: verma/blog
+email: uday.karan@gmail.com
+author: Uday Verma
+description: "Super awesome kung-fu maestah"
+url: http://udayv.com/
+# Build settings
+markdown: kramdown
+permalink: pretty
+paginate: 6

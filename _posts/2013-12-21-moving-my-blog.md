@@ -1,5 +1,5 @@
 ---
-layout: post_page
+layout: post
 title: Moving my blog
 summary: Hoping to blog more about things that seem important.
 

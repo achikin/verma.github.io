@@ -1,6 +1,7 @@
 ---
-layout: post_page
+layout: post
 title: Writing Slack integrations in Clojure
+comments: true
 summary: Slack integration is awesome, in this series we'll develop an integration which will help do something useful.
 ---
 
@@ -9,7 +10,7 @@ I've been playing a lot with Slack lately.  At Mazira, it has become an integral
 ### What are we doing?
 This exercise is not intended to be a tutorial on writing Slack Integrations, its more like doing fun stuff in Clojure.
 
-Source code is available here: https://github.com/verma/slack-weather
+Source code is available [here](https://github.com/verma/slack-weather).
 
 We'll setup a basic project in Clojure and build a Slack integration.  We'd be querying [OpenWeatherMap](http://openweathermap.org/) for weather information for the given zip code. I guess its nice to know how it is outside when you spend your entire day inside, on a computer, writing Clojure.
 
@@ -285,6 +286,7 @@ Hopefully it was a fun ride getting this to work.  Some of the things referred t
 
 - [Slack](https://slack.com/)
 - [Clojure](http://clojure.org/)
+- [Compojure](https://github.com/weavejester/compojure)
 - [OpenWeatherMap](http://openweathermap.org/)
 - [vim-fireplace](https://github.com/tpope/vim-fireplace)
 - [ngrok](https://ngrok.com/)

@@ -1,5 +1,5 @@
 ---
-layout: post_page
+layout: post
 title: Playing with Dates
 summary: Clojure's composability to build dates using clj-time
 comments: true
