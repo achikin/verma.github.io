@@ -5,27 +5,27 @@ comments: true
 summary: Slack integration is awesome, in this series we'll develop an integration which will help do something useful.
 ---
 
-I've been playing a lot with Slack lately.  At Mazira, it has become an integral part of our workflow, and to tell you the truth it hasn't been very long since we started using it.  Some things are love at first site and I feel Slack is one of them.
+I've been playing a lot with Slack lately.  At [Mazira](https://www.mazira.com/), it has become an integral part of our workflow, and to tell you the truth it hasn't been very long since we started using it.  Some things are love at first sight and I feel Slack is one of them.
 
 ### What are we doing?
-This exercise is not intended to be a tutorial on writing Slack Integrations, its more like doing fun stuff in Clojure.
+This exercise is not intended to be a tutorial on writing Slack Integrations, it's more like doing fun stuff in Clojure.
 
 Source code is available [here](https://github.com/verma/slack-weather).
 
-We'll setup a basic project in Clojure and build a Slack integration.  We'd be querying [OpenWeatherMap](http://openweathermap.org/) for weather information for the given zip code. I guess its nice to know how it is outside when you spend your entire day inside, on a computer, writing Clojure.
+We'll setup a basic project in Clojure and build a Slack integration.  We'd be querying [OpenWeatherMap](http://openweathermap.org/) for weather information for the given zip code. I guess it's nice to know how it is outside when you spend your entire day inside, on a computer, writing Clojure.
 
 OpenWeatherMap provides weather over a freely accessible API which returns results in JSON.  [Try this](http://api.openweathermap.org/data/2.5/find?q=95136,USA&units=imperial).
 
-On Slack side of things, you need to setup an _Incoming Webhook_.  Details for doing that can be found [here](https://my.slack.com/services/new/incoming-webhook).  You should eventually end up with a URL that you can post well-defined data to.
+On the Slack side of things, you need to setup an _Incoming Webhook_.  Details for doing that can be found [here](https://my.slack.com/services/new/incoming-webhook).  You should eventually end up with a URL to which you can post well-defined data.
 
 ### Setting up the projects
-Lets begin by starting a new project.
+Let's begin by starting a new project.
 
     lein new compojure slack-weather
 
 This will create a new project for you named `slack-weather` using the `compojure` template.
 
-We're going to import some dependencies. I like to use [clj-http](https://github.com/dakrone/clj-http) for making web-request, [data.json](https://github.com/clojure/data.json) for manipulating JSON and [core.async](https://github.com/clojure/core.async) for general awesomeness (for the `thread` function actually).  Lets add these deps to the `project.clj` file.  After you're done making changes it should look something like:
+We're going to import some dependencies. I like to use [clj-http](https://github.com/dakrone/clj-http) for making web-requests, [data.json](https://github.com/clojure/data.json) for manipulating JSON and [core.async](https://github.com/clojure/core.async) for general awesomeness (for the `thread` function actually).  Let's add these deps to the `project.clj` file.  After you're done making changes it should look something like:
 
 {% highlight clojure %}
 
@@ -44,7 +44,7 @@ We're going to import some dependencies. I like to use [clj-http](https://github
                         [ring-mock "0.1.5"]]}})
 {% endhighlight %}
 
-I use [vim-fireplace](https://github.com/tpope/vim-fireplace) for Clojure development, so what you do here may vary.  Lets open a terminal window, navigate to the project directory and start a REPL.
+I use [vim-fireplace](https://github.com/tpope/vim-fireplace) for Clojure development, so what you do here may vary.  Let's open a terminal window, navigate to the project directory and start a REPL.
 
     lein repl
 
@@ -52,7 +52,7 @@ When the REPL is running, you can go back to your VIM and `:Connect` to it.  Ple
 
 ### Moving forward
 
-We'd start with some exploratory stuff and then build upon it.  Open the `src/slack_weather/handler.clj` file in VIM.  Go to the namespace definition section to require the things we need.  Since we're not going jump ahead of ourselves, lets just include `clj-http` for now and go from there.  Your namespace definition should look something like this once you're done:
+We'll start with some exploratory stuff and then build upon it.  Open the `src/slack_weather/handler.clj` file in VIM.  Go to the namespace definition section to require the things we need.  Since we're not going jump ahead of ourselves, let's just include `clj-http` for now and go from there.  Your namespace definition should look something like this once you're done:
 
 {% highlight clojure %}
 (ns slack-weather.handler
@@ -64,7 +64,7 @@ We'd start with some exploratory stuff and then build upon it.  Open the `src/sl
 
 Place your cursor on the outermost form (where it says `ns`) and hit `cpp` to get the expression evaluated.  If all went well, you should see a `nil` print out in VIM's command buffer.
 
-At this point we have the `clj-http.client` library(among other things) included.  Lets play with it.
+At this point we have the `clj-http.client` library(among other things) included.  Let's play with it.
 
 Hit `cqc` and a _quasi-REPL_ window will open.  Type in the following and hit enter:
 
@@ -72,13 +72,13 @@ Hit `cqc` and a _quasi-REPL_ window will open.  Type in the following and hit en
 (client/get "http://www.google.com")
 {% endhighlight %}
 
-Something should happen. Page full of content. Hit q to get out of it.  At this point we're ready to post messages to slack, but first lets assign the Slack URL to something more convenient:
+Something should happen. Page full of content. Hit q to get out of it.  At this point we're ready to post messages to slack, but first let's assign the Slack URL to something more convenient:
 
 {% highlight clojure %}
 (def hook-url "https://myslack.slack.com/...") ; use your real URL
 {% endhighlight %}
 
-Now lets write a function which takes a URL and a map (which will hold our content) and posts it to the given URL.  Since we need to emit JSON (which is what Slack accepts), make sure you require `[clojure.data.json :as json]` and re-eval your namespace definition (`cpp` in fireplace).
+Now let's write a function which takes a URL and a map (which will hold our content) and posts it to the given URL.  Since we need to emit JSON (which is what Slack accepts), make sure you require `[clojure.data.json :as json]` and re-eval your namespace definition (`cpp` in fireplace).
 
 {% highlight clojure %}
 (defn post-to-slack [url msg]
@@ -86,7 +86,7 @@ Now lets write a function which takes a URL and a map (which will hold our conte
                     :content-type :json}))
 {% endhighlight %}
 
-Lets eval (`cpp` in fireplace) this expression, along with the `hook-url` expression and open the _quasi-REPL_ (`cqc` in fireplace).  Try calling this function a few times:
+Let's eval (`cpp` in fireplace) this expression, along with the `hook-url` expression and open the _quasi-REPL_ (`cqc` in fireplace).  Try calling this function a few times:
 
 {% highlight clojure %}
 (post-to-slack hook-url {:text "Test message"})
@@ -95,7 +95,7 @@ Lets eval (`cpp` in fireplace) this expression, along with the `hook-url` expres
                          :icon_emoji ":feelsgood:"}) ;; more exciting
 {% endhighlight %}
 
-Seems to be working alright.  Lets add the `username` and `icon_emoji` fields as defaults unless explicitly overridden by the caller.
+Seems to be working alright.  Let's add the `username` and `icon_emoji` fields as defaults unless explicitly overridden by the caller.
 
 {% highlight clojure %}
 (defn post-to-slack [url msg]
@@ -112,17 +112,17 @@ This method now provides some overridable defaults:
                          :icon_emoji ":sunglasses:"})
 {% endhighlight %}
 
-Seems like we've got posting to Slack down, time to move on to getting some real data.
+Seems like we've got posting to Slack down, so it's time to move on to getting some real data.
 
 ### Getting Real Data
 
-Lets now build a suite of functions which make its easier to deal with OpenWeatherMap data.  First lets just try to query the weather information and see what we get (hint: use `cqc` in fireplace):
+Let's now build a suite of functions which make its easier to deal with OpenWeatherMap data.  First let's just try to query the weather information and see what we get (hint: use `cqc` in fireplace):
 
 {% highlight clojure %}
 (client/get "http://api.openweathermap.org/data/2.5/find?q=95136,USA&units=imperial")
 {% endhighlight %}
 
-Seems like we got something back.  The returned content is still a string, lets start wrapping this in a function:
+Seems like we got something back.  The returned content is still a string, let's start wrapping this in a function:
 
 {% highlight clojure %}
 (defn weather-for-zip [zip]
@@ -144,7 +144,7 @@ Our data of interest is laid out in objects inside objects. e.g.
     temp-max   -> list[0].main.temp_max
     conditions -> list[0].weather[0].main
 
-Although we can manually pull these values out, lets go a step further and brew up a function that does it for us.
+Although we can manually pull these values out, let's go a step further and brew up a function that does it for us.
 
 {% highlight clojure %}
 (defn pull-values [m val-map]
@@ -172,10 +172,10 @@ We can use this function to pull our items of interest out of the OpenWeatherMap
                     :conditions ["list" 0 "weather" 0 "main"]})))
 {% endhighlight %}
 
-We've gotten rid of the `content` def along with adding the `pull-value` call.  Try this out in REPL (`cpp` and `cqc` in fireplace) and see if we're getting awesome results.  Feel free to pull out more information like wind speed and direction etc.
+We've gotten rid of the `content` def along with adding the `pull-value` call.  Try this out in REPL (`cpp` and `cqc` in fireplace) and see if we're getting awesome results.  Feel free to pull out more information like wind speed, direction etc.
 
 ### Formatting Results
-We now need to convert this hash-map of weather data into a nicer looking string representation.  Lets write a function which does that:
+We now need to convert this hash-map of weather data into a nicer looking string representation.  Let's write a function which does that:
 
 {% highlight clojure %}
 (defn weather-to-str [w]
@@ -184,7 +184,7 @@ We now need to convert this hash-map of weather data into a nicer looking string
        ", Humidity: " (:humidity w))
 {% endhighlight %}
 
-This should give you a reasonable looking weather string.
+This should give you a reasonable-looking weather string.
 
 
 ### Putting things together
@@ -200,10 +200,10 @@ At this point we have all the pieces to post weather information to slack.
 
 {% endhighlight %}
 
-This function puts all the pieces together: takes a zip code and  pushes the relevant weather information to the `hook-url` Slack URL.
+This function puts all the pieces together, taking a zip code and pushing the relevant weather information to the `hook-url` Slack URL.
 
 ### Accepting Commands
-So far we've just been playing with the REPL and building our functions to fetch weather information and pushing it to Slack.  We did start the project using a Compojure template, but we haven't used any web server functionality.
+So far we've just been playing with the REPL, building our functions to fetch weather information and pushing it to Slack.  We did start the project using a Compojure template, but we haven't used any web server functionality.
 
 Slack Commands work by pushing information to a URL you provide.  Try creating a Slack Command integration and it will give you details about what parameters Slack is going to send to you.  Basically, whenever you type in `/command-name` in one of the channels, the Slack command gets triggered.
 
@@ -217,7 +217,7 @@ At this time, I would open another terminal window, navigate to my project direc
 
 This will serve the web service on port 3000 by default and will auto-update itself every time you modify the project source files.
 
-Lets first set the basic Compojure handler to accept incoming commands.  My `defroutes` definition now looks like this:
+Let's first set the basic Compojure handler to accept incoming commands.  My `defroutes` definition now looks like this:
 
 {% highlight clojure %}
 (defroutes app-routes
@@ -229,11 +229,11 @@ Lets first set the basic Compojure handler to accept incoming commands.  My `def
   (route/not-found "Not Found"))
 {% endhighlight %}
 
-Now setup a Slack Command Integration which will give the token information.  When setting up the integration, Slack is going to ask you for the URL where it should post the command information.  Since we're developing our stuff locally and don't really have a publicly accessible end-point, I usually run a tunneling software like `ngrok` to expose my services to the interwebs. `ngrok` will give you a URL where your service is reachable, copy it and give it to Slack.
+Now setup a Slack Command Integration which will give the token information.  When setting up the integration, Slack is going to ask you for the URL where it should post the command information.  Since we're developing our stuff locally and don't really have a publicly accessible end-point, I usually run a tunneling software like `ngrok` to expose my services to the interwebs. `ngrok` will give you a URL where your service is reachable.  Copy it and give it to Slack.
 
 You should now be able to go to a channel and just type in `/weather`.  You should see our response string popup.
 
-The parameters will arrive under `(:params request)`. `:command` will contain the actual command (you can have multiple commands go to a single server). `:text` will contain any additional parameters sent to us .e.g the zip code.  Lets do some error checking and see how things go.
+The parameters will arrive under `(:params request)`. `:command` will contain the actual command (you can have multiple commands go to a single server). `:text` will contain any additional parameters sent to us .e.g the zip code.  Let's do some error checking and see how things go.
 
 {% highlight clojure %}
 (defn check-zip [zip]
@@ -254,11 +254,11 @@ The parameters will arrive under `(:params request)`. `:command` will contain th
   (route/not-found "Not Found"))
 {% endhighlight %}
 
-We first write a function `check-zip` which makes sure that provided zip codes are 5 digit numbers, spaces on either side of input are trimmed.
+We first write a function `check-zip` which makes sure that provided zip codes are 5 digit numbers and spaces on either side of input are trimmed.
 
-For the request to be valid, the `:command` field needs to say `"/command"`, the auth token needs to match the token we were given when we created the command integration and finally the zip code that arrived in `:text` needs to be valid.  Play around with this in either your REPL or from the Slack channel window.  I did reasonable amount of testing (2 mins) to make sure things were sane.
+For the request to be valid, the `:command` field needs to say `"/command"`, the auth token needs to match the token we were given when we created the command integration and finally the zip code that arrived in `:text` needs to be valid.  Play around with this either in your REPL or from the Slack channel window.  I did reasonable amount of testing (2 mins) to make sure things were working.
 
-Right now we just have the request returning a status back to Slack, we're not really doing any actual work.  We should now hook in our weather query machinery from before into this request handler, something like:
+Right now we just have the request returning a status message back to Slack.  We're not really doing any actual work.  We should now hook in our weather query machinery from before into this request handler, something like:
 
 {% highlight clojure %}
 (defroutes app-routes
@@ -291,7 +291,10 @@ Hopefully it was a fun ride getting this to work.  Some of the things referred t
 - [vim-fireplace](https://github.com/tpope/vim-fireplace)
 - [ngrok](https://ngrok.com/)
 
-If you're feeling particularly generous today, follow me on [Twitter](https://twitter.com/udaykverma)
+If you're feeling particularly generous today, follow me on [Twitter](https://twitter.com/udaykverma).
+
+### Credits
+Thanks to Liz Silich for proof-reading this post.
 
 
 
