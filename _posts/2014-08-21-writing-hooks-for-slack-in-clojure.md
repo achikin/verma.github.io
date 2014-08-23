@@ -4,6 +4,7 @@ title: Writing Slack integrations in Clojure
 comments: true
 summary: Slack integration is awesome, in this series we'll develop an integration which will help do something useful.
 categories: [clojure]
+redirect_from: "/2014/08/21/writing-hooks-for-slack-in-clojure/"
 ---
 
 I've been playing a lot with Slack lately.  At [Mazira](https://www.mazira.com/), it has become an integral part of our workflow, and to tell you the truth it hasn't been very long since we started using it.  Some things are love at first sight and I feel Slack is one of them.

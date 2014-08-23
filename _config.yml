@@ -8,3 +8,6 @@ url: http://udayv.com/
 markdown: kramdown
 permalink: pretty
 paginate: 6
+
+gems:
+  - jekyll-redirect-from
