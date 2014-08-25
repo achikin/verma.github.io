@@ -8,7 +8,7 @@ categories: [devops]
 
 I recently tried provisioning a [Digital Ocean](https://www.digitalocean.com) instance using [Vagrant](https://www.vagrantup.com) and failed.  All references on the Interwebs seem to be quiet old (from 2013) and seem to use V1 of the Digital Ocean API.
 
-In this post I'll detail the steps I took to get one up and running.
+In this post I'll detail the steps I followed to get one up and running.
 
 ### Environment
 These steps were tried on `Mac OS X 10.9.4`, I would hope that they apply to other *nix family of operating systems as well.  I am running `Vagrant v1.3.5` which I realize is not the most recent version.
