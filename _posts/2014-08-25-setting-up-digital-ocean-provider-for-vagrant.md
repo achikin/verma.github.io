@@ -3,7 +3,7 @@ layout: post
 title: Setting up Digital Ocean provider for Vagrant
 summary: Use Digital Ocean as a platform to provision your Vagrant instances.
 comments: true
-categories: [admin, vagrant, digital-ocean]
+categories: [devops]
 ---
 
 I recently tried provisioning a [Digital Ocean](https://www.digitalocean.com) instance using [Vagrant](https://www.vagrantup.com) and failed.  All references on the Interwebs seem to be quiet old (from 2013) and seem to use V1 of the Digital Ocean API.
