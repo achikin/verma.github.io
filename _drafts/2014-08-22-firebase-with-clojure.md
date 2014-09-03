@@ -1,8 +1,9 @@
 ---
-title: Firebase with Clojure
-summary: Make firebase more idiomatic with clojure.match
+title: Firebase with Clojure & core.async
+summary: A walkthrough of adding a library function to pani using core.async and multi-methods.
 categories: [clojure]
 layout: post
+comments: true
 ---
 
 You love [Firebase](https://www.firebase.com/)? I love Firebase.
@@ -13,14 +14,13 @@ Firebase has made client side web-apps development trivial for me. I can forget 
 
 I've been working on a Firebase Clojure library called [pani](https://github.com/verma/pani) (hindi word for water).  Things are flowing (no pun intended) nicely, although Clojure support is lagging behind ClojureScript (since I tend to use the latter more).
 
-In this post I am going to touch on one aspect of pani.  What I intend to do is write a function named `listen<` which listens for events on Firebase `refs` and provides a nice way of dealing with them.  We'd be using `core.async` to deliver these events.
+In this post I am going to touch on one aspect of pani.  What I intend to do is write a function named `listen` which listens for events on Firebase `refs` and provides a nice way of dealing with them.  We'd be using `core.async` to deliver these events.
 
-_I originally intended to deconstruct these delivered value using `core.match`, but it seems like `core.async` and `core.match` [don't play nicely together yet](http://dev.clojure.org/jira/browse/MATCH-96)_.
+_I originally intended to deconstruct these delivered events using `core.match`, but it seems like `core.async` and `core.match` [don't play nicely together yet](http://dev.clojure.org/jira/browse/MATCH-96)_.
 
 ### First things first
-The function name `listen<` has that angle bracket in it indicating that this function will be returning a `core.async` channel (a good conventions to follow).  _Events_ will be posted to this channel as Clojure vectors.
-
-I will refrain from using certain functions from _pani_ itself to make things clearer (although it could have resulted in more concise code).
+The `listen` function will bind to Firebase events and wait for notifications.  The function will return a `core.async` `chan`.
+Received _Events_ will be posted to this channel as Clojure vectors.  I will refrain from using certain functions from _pani_ itself to make things clearer (although it could have resulted in more concise code).
 
 I am not going to show you the requires and stuff since this function will be a part of the _pani_ library and requires have already [been taken care of](https://github.com/verma/pani/blob/master/src/pani/cljs/core.cljs#L1).
 
@@ -29,7 +29,7 @@ I am not going to show you the requires and stuff since this function will be a 
 I think the function should look something like:
 
 {% highlight clojure %}
-(defn listen<
+(defn listen
   "Given a Firebase root and a key (or a seq of keys) return a  
    channel which will deliver events"
   [root korks]
@@ -44,7 +44,7 @@ Let's build on it.
 ### Listening for Firebase Events
 Although _pani_ already has functions to listen for Firebase events, let's just re-write them here using some transducers for extra giggles.
 
-Mostly we're just interested in three Firebase events here: `child_added`, `child_removed` and `child_changed` (let's collectively decide to not worry about `child_moved`).  Also for most use cases I've found that I never need the previous snapshot or node name (let me know if that's not the case though, or I'll sooner or later hit one).
+Mostly we're just interested in three Firebase events here: `child_added`, `child_removed` and `child_changed` (let's collectively decide to not worry about `child_moved`).  For most of my use cases I've found that I never need the previous snapshot or node name (let me know if that's not the case though, or I'll sooner or later hit one).
 
 First, let's write a little function which takes a Firebase ref and returns to us a `chan` which will have the received value posted to it (`pani/bind` does something similar) after its passed through a provided transducer.
 
@@ -64,12 +64,12 @@ The transducer then accepts this vector and turns it into a flattened out vector
 
 Testing this is not a trivial thing to do, so you'd have to take my word for it that it's working fine.  If you really want to test it, you can create a new ClojureScript application, refer to _pani_ and play around with it. _Hint: a good starting point for ClojureScript apps is David Nolen's [mies](https://github.com/swannodette/mies)_.
 
-### `listen<` Machinery
-Once we have the `fb->chan` method, we can starting defining our `listen<` function. It looks something like this for me:
+### `listen` Machinery
+Once we have the `fb->chan` method, we can starting defining our `listen` function. It looks something like this for me:
 
 {% highlight clojure %}
 
-(defn listen<
+(defn listen
   "Listens for events on the given firebase ref"
   [root korks]
   (let [root    (walk-root root korks)
@@ -105,13 +105,13 @@ To begin with, let's just print what we receive.
 {% highlight clojure %}
 (def r (p/root "https://secret-app.firebaseio.com/"))
 
-(let [c (p/listen< r [:items])]
+(let [c (p/listen r [:items])]
   (go-loop [msg (<! c)]
            (println msg)
            (recur (<! c))))
 {% endhighlight %}
 
-We define `r` as the root of our Firebase app.  We call `listen<` on it and pass it `[:items]`, since here we're interested in `/items` ref.  Any items added, removed or changed under this ref needs to be told us about.  When I run this and simulate adding and removing values, I get output like this:
+We define `r` as the root of our Firebase app.  We call `listen` on it and pass it `[:items]`, since here we're interested in `/items` ref.  Any items added, removed or changed under this ref needs to be told us about.  When I run this and simulate adding and removing values, I get output like this:
 
     [:child_added "4" "clojure"]
     [:child_added "5" "rocks!"]
@@ -120,7 +120,7 @@ We define `r` as the root of our Firebase app.  We call `listen<` on it and pass
 
 Ok, so far so good.
 
-Let's say I want to keep a track of values under my Firebase ref.  I would start with an empty map and as I receive notifications about items being added, removed or modified, I would update my map accordingly.  A nice and pretty way of doing this would be to use `clojure.match`, but we're going to stay away from it now.  Instead we'll play a little bit with _multi-methods_.
+Let's say I want to keep track of values under my Firebase ref.  I would start with an empty map and as I receive notifications about items being added, removed or modified, I would update my map accordingly.  A nice and pretty way of doing this would be to use `clojure.match`, but we're going to stay away from it for now.  Instead we'll play a little bit with _multi-methods_.
 
 ### A whirlwind tour of Multi-methods
 
@@ -166,7 +166,7 @@ Mutli-methods are much broader in scope though, so if you find them interesting,
 Before we write our mutli-method, let's try and see how we're going to use it.
 
 {% highlight clojure %}
-(let [c (p/listen< r [:items])]
+(let [c (p/listen r [:items])]
   (go-loop [msg (<! c)
             my-data {}]
            (let [new-data (handle-value msg my-data)]
@@ -227,6 +227,7 @@ Here are some of the things we discussed:
 - [Pani](https://github.com/verma/pani).
 - [core.async](https://github.com/clojure/core.async)
 - [core.match](https://github.com/clojure/core.match)
+- [mies](https://github.com/swannodette/mies)
 - [The Joy of Clojure](http://joyofclojure.com/)
 
 Until next time!
