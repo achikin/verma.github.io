@@ -1,5 +1,5 @@
-# getmicah.github.io
+# verma.github.io
 My blog made with [jekyll](http://jekyllrb.com) and hosted with Github Pages.
 
 ### License
-All this stuff is under the [MIT License](https://raw.githubusercontent.com/getmicah/getmicah.github.io/master/LICENSE)
+Read the LICENSE file for theme license, all other content is licensed under MIT.
