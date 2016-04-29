@@ -1,8 +1,8 @@
 ---
+layout: post
 title: Firebase with Clojure & core.async
 summary: A walkthrough of adding a library function to pani using core.async and multi-methods.
 categories: [clojure]
-layout: post
 comments: true
 ---
 
@@ -30,7 +30,7 @@ I think the function should look something like:
 
 {% highlight clojure %}
 (defn listen
-  "Given a Firebase root and a key (or a seq of keys) return a  
+  "Given a Firebase root and a key (or a seq of keys) return a
    channel which will deliver events"
   [root korks]
   (let [c (chan)]
@@ -174,7 +174,7 @@ Before we write our mutli-method, let's try and see how we're going to use it.
              (recur (<! c) new-data))))
 {% endhighlight %}
 
-We're running a `go-loop` here listening for messages on channel `c`.  We then pass the received message and the current value of `my-data` (our _list_ of items) to our multi-method `handle-value`.  `handle-value` is then supposed to return us the new state of our data. 
+We're running a `go-loop` here listening for messages on channel `c`.  We then pass the received message and the current value of `my-data` (our _list_ of items) to our multi-method `handle-value`.  `handle-value` is then supposed to return us the new state of our data.
 
 We can define our multi-method like so:
 
@@ -216,7 +216,7 @@ When I hookup all of this machinery and run the code.  I get output like this:
     My data is now  {3 event,      ;; [:child_removed "4" "eat"]
                      5 Hello, 2 do}
     My data is now  {3 event,      ;; [:child_removed "2" "do"]
-                     5 Hello} 
+                     5 Hello}
 
 Things look good.
 

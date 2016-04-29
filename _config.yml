@@ -1,13 +1,25 @@
-# Site settings
-title: verma/blog
-email: uday.karan@gmail.com
-author: Uday Verma
-description: "Super awesome kung-fu maestah"
-url: http://udayv.com/
-# Build settings
-markdown: kramdown
+# My variables
+name: verma
+description: verma's blog
+google_analytics: UA-39119359-12
+google_verification: null
 permalink: pretty
-paginate: 6
 
-gems:
-  - jekyll-redirect-from
+
+# File management
+include: [".htaccess"]
+exclude: ["README.md", "LICENSE"]
+
+
+# Sass
+sass:
+  style: :compressed
+  sass_dir: _sass
+
+
+# Markdown
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+highlighter: rouge

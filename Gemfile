@@ -1,6 +1,3 @@
 source 'https://rubygems.org'
-
-gem 'sass'
 gem 'jekyll'
-gem 'nokogiri'
-gem 'jekyll-redirect-from'
+gem 'jekyll-sitemap'
