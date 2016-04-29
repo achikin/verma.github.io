@@ -93,7 +93,7 @@ This should give you `#{["i525"]}`.
 
 That looks like an awful way to do whatever the heck its doing.  Fear not, fear is the mind-killer.
 
-I don't want to go into how datascript stores stuff internally as datoms and all the stuff that goes on.  For now lets's simplify it:
+I don't want to go into how datascript stores stuff internally as datoms and all the stuff that goes on (since I don't completely understand it yet).  For now lets's keep it simple:
 
  - Anything that starts with `?` is a variable which will hold a value for us as we process the `:where` rules.
  - The thing after `:find` is what the query will return. In this case whatever ends up being in `?name` comes out.
