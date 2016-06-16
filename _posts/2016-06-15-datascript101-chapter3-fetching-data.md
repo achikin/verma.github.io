@@ -3,7 +3,7 @@ title: Datascript 101 - Chapter 3
 summary: Learn how to bind and destructure data
 categories: [clojurescript, clojure]
 layout: post
-date: 2016-05-20
+date: 2016-06-15
 comments: true
 ---
 
@@ -75,7 +75,7 @@ What if I query two attributes?
 ;; => #{[1 alice] [2 bob] [3 kim] [4 aaron] [5 john] [6 mark] [7 kris] [8 paul]}
 {%endhighlight clojure%}
 
-Ok, nice.  This kind of output is called relations (may be shows you how data is related?).  But from processing point of view it could be weird to do processing on this just to get the data the way you want it.  We can use special syntax to return other things:
+Ok, nice.  This kind of output is called relations (may be shows you how data is related?).  We can use special syntax to return other things:
 
 {%highlight clojure%}
 (d/q '[:find [?e ...]
@@ -95,17 +95,21 @@ That weird `[?e ...]` part says that return me the output as a vector.  Unsurpri
 ;; => [alice bob kim aaron john mark kris paul]
 {%endhighlight clojure%}
 
-What if I am expecting on one item to be returned (or can I coerce the output to only return one item?)
+What if I am expecting only one item to be returned (or can I coerce the output to only return one item?)
 
 {%highlight clojure%}
 (d/q '[:find ?n .
         :where
         [?e :user/id]
-        [?e :user/name ?n]])
+        [?e :user/name ?n]]
+      @conn)
 ;; => alice
 {%endhighlight clojure%}
 
-Here the output was coerced into a "scalar" (single value), doesn't really make much sense here, but sometimes you're expecting to find a single thing and this is a nice way of avoiding an `ffirst`.
+Notice that `?e .`, the period of `?e`.  Here the output was coerced into a "scalar" (single value), doesn't really make much sense here, but sometimes you're expecting to find a single thing and this is a nice way of avoiding an `ffirst`.
 
-These are some of the variations I've found useful.  I think there are more (tuples), but I haven't really encountered them yet, so that'll have to wait.
+These are some of the variations I've found useful.  I think there are more (e.g. tuples), but I haven't really encountered them yet, so that'll have to wait.
 
+That's all for now. Took a while to get this post up. Work work work :/.
+
+/
